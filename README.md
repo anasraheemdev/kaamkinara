@@ -148,17 +148,17 @@ Make sure you have the following installed on your machine:
 <img src="https://cdn-icons-png.freepik.com/512/1828/1828506.png" alt="Installation" width="30" align="left" style="margin-right: 10px;">
 
 1.  **Clone the repository:**
-    ```sh
+    \`\`\`sh
     git clone https://github.com/anasraheemdev/kaamkinara.git
     cd kaamkinara
-    ```
+    \`\`\`
 2.  **Install dependencies:**
-    ```sh
+    \`\`\`sh
     pnpm install
-    ```
+    \`\`\`
 3.  **Set up environment variables:**
     Create a `.env.local` file in the root of your project and add the necessary environment variables.
-    ```env
+    \`\`\`env
     # Example .env.local
     NEXT_PUBLIC_API_URL="http://localhost:3000/api"
 
@@ -166,11 +166,11 @@ Make sure you have the following installed on your machine:
     DATABASE_URL="..."
     NEXTAUTH_URL="..."
     NEXTAUTH_SECRET="..."
-    ```
+    \`\`\`
 4.  **Run the development server:**
-    ```sh
+    \`\`\`sh
     pnpm dev
-    ```
+    \`\`\`
     Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
 ---
@@ -183,7 +183,7 @@ Make sure you have the following installed on your machine:
 
 The project uses the Next.js App Router for intuitive file-based routing.
 
-```
+\`\`\`
 kaamkinara/
 ├── 📁 app/                      # Main application folder
 │   ├── 🔐 (auth)/               # Authentication routes (login, signup)
@@ -204,7 +204,7 @@ kaamkinara/
 │   └── 🛠️ utils.ts              # Helper functions
 ├── 🖼️ public/                   # Static assets
 └── ⚙️ tailwind.config.ts        # Tailwind CSS configuration
-```
+\`\`\`
 
 ---
 

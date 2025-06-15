@@ -4,23 +4,23 @@ import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
-import { Badge } from "@/components/ui/badge"
 import {
   LayoutDashboard,
-  Search,
   Calendar,
   MessageSquare,
-  Star,
+  Briefcase,
   Settings,
   User,
-  Briefcase,
-  TrendingUp,
-  Clock,
-  Wallet,
+  Search,
+  Star,
+  CreditCard,
+  BarChart3,
+  Users,
+  Shield,
 } from "lucide-react"
 
 interface SidebarNavProps {
-  userRole: "customer" | "worker"
+  userRole: "customer" | "worker" | "admin"
   className?: string
 }
 
@@ -40,28 +40,22 @@ export function SidebarNav({ userRole, className }: SidebarNavProps) {
     },
     {
       title: "My Bookings",
-      href: "/customer/bookings",
+      href: "/customer/schedule",
       icon: Calendar,
     },
     {
       title: "Messages",
       href: "/messages",
       icon: MessageSquare,
-      badge: 3,
-    },
-    {
-      title: "Reviews",
-      href: "/customer/reviews",
-      icon: Star,
     },
     {
       title: "Profile",
-      href: "/customer/profile",
+      href: "/profile",
       icon: User,
     },
     {
       title: "Settings",
-      href: "/customer/settings",
+      href: "/settings",
       icon: Settings,
     },
   ]
@@ -73,31 +67,19 @@ export function SidebarNav({ userRole, className }: SidebarNavProps) {
       icon: LayoutDashboard,
     },
     {
-      title: "My Gigs",
-      href: "/worker/gigs",
-      icon: Briefcase,
+      title: "My Schedule",
+      href: "/worker/schedule",
+      icon: Calendar,
     },
     {
-      title: "Job Requests",
-      href: "/worker/jobs",
-      icon: Clock,
-      badge: 5,
+      title: "Gigs",
+      href: "/worker/gigs",
+      icon: Briefcase,
     },
     {
       title: "Messages",
       href: "/messages",
       icon: MessageSquare,
-      badge: 2,
-    },
-    {
-      title: "Analytics",
-      href: "/worker/analytics",
-      icon: TrendingUp,
-    },
-    {
-      title: "Earnings",
-      href: "/worker/earnings",
-      icon: Wallet,
     },
     {
       title: "Reviews",
@@ -105,33 +87,79 @@ export function SidebarNav({ userRole, className }: SidebarNavProps) {
       icon: Star,
     },
     {
+      title: "Earnings",
+      href: "/worker/earnings",
+      icon: CreditCard,
+    },
+    {
       title: "Profile",
-      href: "/worker/profile",
+      href: "/profile",
       icon: User,
     },
     {
       title: "Settings",
-      href: "/worker/settings",
+      href: "/settings",
       icon: Settings,
     },
   ]
 
-  const navItems = userRole === "customer" ? customerNavItems : workerNavItems
+  const adminNavItems = [
+    {
+      title: "Dashboard",
+      href: "/admin/dashboard",
+      icon: LayoutDashboard,
+    },
+    {
+      title: "Users",
+      href: "/admin/users",
+      icon: Users,
+    },
+    {
+      title: "Workers",
+      href: "/admin/workers",
+      icon: Shield,
+    },
+    {
+      title: "Analytics",
+      href: "/admin/analytics",
+      icon: BarChart3,
+    },
+    {
+      title: "Settings",
+      href: "/admin/settings",
+      icon: Settings,
+    },
+  ]
+
+  const getNavItems = () => {
+    switch (userRole) {
+      case "customer":
+        return customerNavItems
+      case "worker":
+        return workerNavItems
+      case "admin":
+        return adminNavItems
+      default:
+        return customerNavItems
+    }
+  }
+
+  const navItems = getNavItems()
 
   return (
-    <nav className={cn("space-y-2", className)}>
+    <nav className={cn("flex space-x-2 lg:flex-col lg:space-x-0 lg:space-y-1", className)}>
       {navItems.map((item) => (
-        <Link key={item.href} href={item.href}>
-          <Button variant={pathname === item.href ? "secondary" : "ghost"} className="w-full justify-start">
+        <Button
+          key={item.href}
+          variant={pathname === item.href ? "secondary" : "ghost"}
+          className={cn("w-full justify-start", pathname === item.href && "bg-muted font-medium")}
+          asChild
+        >
+          <Link href={item.href}>
             <item.icon className="mr-2 h-4 w-4" />
             {item.title}
-            {item.badge && (
-              <Badge variant="destructive" className="ml-auto">
-                {item.badge}
-              </Badge>
-            )}
-          </Button>
-        </Link>
+          </Link>
+        </Button>
       ))}
     </nav>
   )
