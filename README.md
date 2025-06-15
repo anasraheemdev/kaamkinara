@@ -123,7 +123,7 @@ Kaam Kinara provides a complete ecosystem featuring:
 
 ### Database Schema
 
-\`\`\`mermaid
+```mermaid
 erDiagram
     USERS ||--o{ BOOKINGS : creates
     USERS ||--o{ SERVICES : offers
@@ -154,7 +154,7 @@ erDiagram
         datetime scheduled_at
         string status
     }
-\`\`\`
+```
 
 ---
 
@@ -267,23 +267,23 @@ Ensure you have the following installed:
 ### Installation
 
 1. **Clone the repository**
-   \`\`\`bash
+   ```bash
    git clone https://github.com/anasraheemdev/kaamkinara.git
    cd kaamkinara
-   \`\`\`
+   ```
 
 2. **Install dependencies**
-   \`\`\`bash
+   ```bash
    pnpm install
-   \`\`\`
+   ```
 
 3. **Environment setup**
-   \`\`\`bash
+   ```bash
    cp .env.example .env.local
-   \`\`\`
+   ```
    
    Configure your `.env.local`:
-   \`\`\`env
+   ```env
    # Database
    DATABASE_URL="postgresql://username:password@localhost:5432/kaamkinara"
    
@@ -297,36 +297,36 @@ Ensure you have the following installed:
    
    # Redis (optional)
    REDIS_URL="redis://localhost:6379"
-   \`\`\`
+   ```
 
 4. **Database setup**
-   \`\`\`bash
+   ```bash
    pnpm db:setup
    pnpm db:seed
-   \`\`\`
+   ```
 
 5. **Development server**
-   \`\`\`bash
+   ```bash
    pnpm dev
-   \`\`\`
+   ```
 
 Visit [http://localhost:3000](http://localhost:3000) to see the application.
 
 ### Docker Setup (Alternative)
 
-\`\`\`bash
+```bash
 # Build and run with Docker Compose
 docker-compose up --build
 
 # Or use the provided Makefile
 make dev
-\`\`\`
+```
 
 ---
 
 ## 📁 Project Structure
 
-\`\`\`
+```
 kaamkinara/
 ├── 📁 app/                          # Next.js App Router
 │   ├── 🔐 (auth)/                   # Authentication pages
@@ -368,7 +368,7 @@ kaamkinara/
 │   ├── Dockerfile.dev
 │   └── Dockerfile.prod
 └── 📋 package.json
-\`\`\`
+```
 
 ---
 
@@ -388,11 +388,11 @@ kaamkinara/
 
 Control feature availability through environment variables:
 
-\`\`\`env
+```env
 FEATURE_VIDEO_CALLS=true
 FEATURE_ADVANCED_ANALYTICS=true
 FEATURE_MULTI_LANGUAGE=false
-\`\`\`
+```
 
 ---
 
@@ -418,7 +418,7 @@ FEATURE_MULTI_LANGUAGE=false
 
 ### Test Coverage
 
-\`\`\`bash
+```bash
 # Run all tests
 pnpm test
 
@@ -427,7 +427,7 @@ pnpm test:watch
 
 # Generate coverage report
 pnpm test:coverage
-\`\`\`
+```
 
 ### Testing Strategy
 
@@ -446,21 +446,21 @@ Current Coverage: **85%+**
 
 #### Vercel (Recommended)
 
-\`\`\`bash
+```bash
 # Deploy to Vercel
 pnpm build
 vercel --prod
-\`\`\`
+```
 
 #### Docker Deployment
 
-\`\`\`bash
+```bash
 # Build production image
 docker build -f docker/Dockerfile.prod -t kaamkinara:latest .
 
 # Run container
 docker run -p 3000:3000 kaamkinara:latest
-\`\`\`
+```
 
 ### CI/CD Pipeline
 
@@ -478,27 +478,27 @@ The project includes GitHub Actions workflows for:
 ### Core Endpoints
 
 #### Authentication
-\`\`\`http
+```http
 POST /api/auth/login
 POST /api/auth/register
 POST /api/auth/logout
-\`\`\`
+```
 
 #### Bookings
-\`\`\`http
+```http
 GET    /api/bookings
 POST   /api/bookings
 PUT    /api/bookings/:id
 DELETE /api/bookings/:id
-\`\`\`
+```
 
 #### Services
-\`\`\`http
+```http
 GET    /api/services
 POST   /api/services
 PUT    /api/services/:id
 DELETE /api/services/:id
-\`\`\`
+```
 
 ### API Rate Limiting
 
