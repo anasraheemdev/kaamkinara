@@ -1,5 +1,5 @@
 <div align="center">
-  <img src="https://raw.githubusercontent.com/PKief/vscode-material-icon-theme/main/icons/folder-services.svg" alt="Kaam Kinara" width="400" height="800">
+  <img src="https://www.theappsondemand.com/wp-content/uploads/elementor/thumbs/banner-1-1-qnki925dmmhuzmm09qkpgg8k13fh7iy8eucahmlzb4.png" alt="Kaam Kinara" width="400" height="800">
   
   # 🏢 Kaam Kinara
   
