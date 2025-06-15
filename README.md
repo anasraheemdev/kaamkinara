@@ -1,5 +1,5 @@
 <div align="center">
-  <img src="https://www.theappsondemand.com/wp-content/uploads/elementor/thumbs/banner-1-1-qnki925dmmhuzmm09qkpgg8k13fh7iy8eucahmlzb4.png" alt="Kaam Kinara Logo" width="800" height="500">
+  <img src="https://www.theappsondemand.com/wp-content/uploads/elementor/thumbs/banner-1-1-qnki925dmmhuzmm09qkpgg8k13fh7iy8eucahmlzb4.png" alt="Kaam Kinara Logo" width="800" height="300">
   <h1 align="center">🚀 Kaam Kinara</h1>
   <p align="center">
     <strong>Your One-Stop Platform for Local Services</strong>
