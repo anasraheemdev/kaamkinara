@@ -1,104 +1,94 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState } from "react"
 import { DashboardLayout } from "@/components/layout/dashboard-layout"
-import { BookingCalendarSupabase } from "@/components/calendar/booking-calendar-supabase"
+import { BookingCalendar } from "@/components/calendar/booking-calendar"
 import { Card, CardContent } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { BookingService, type BookingWithDetails } from "@/lib/supabase/booking-service"
-import { Calendar, Clock, MapPin, User, CheckCircle, Edit, MessageCircle, Phone, Loader2 } from "lucide-react"
-import { toast } from "sonner"
+import { Calendar, Clock, MapPin, User, CheckCircle, Edit, MessageCircle, Phone } from "lucide-react"
 
 export default function CustomerSchedulePage() {
   const [activeTab, setActiveTab] = useState("calendar")
-  const [loading, setLoading] = useState(false)
-  const [upcomingBookings, setUpcomingBookings] = useState<BookingWithDetails[]>([])
-  const [pastBookings, setPastBookings] = useState<BookingWithDetails[]>([])
-  const [stats, setStats] = useState({
-    upcoming: 0,
-    completed: 0,
-    pending: 0,
-    totalSpent: 0,
-  })
 
-  // Mock user ID - in real app, this would come from auth context
-  const userId = "550e8400-e29b-41d4-a716-446655440001"
+  const upcomingBookings = [
+    {
+      id: "1",
+      service: "Kitchen Plumbing",
+      worker: "Ahmed Hassan",
+      date: "Tomorrow",
+      time: "10:00 AM",
+      duration: "2 hours",
+      location: "DHA Phase 5, Karachi",
+      status: "confirmed",
+      amount: "Rs. 2,500",
+      workerRating: 4.9,
+      workerImage: "/placeholder.svg?height=40&width=40",
+    },
+    {
+      id: "2",
+      service: "Electrical Repair",
+      worker: "Muhammad Ali",
+      date: "Jan 18",
+      time: "2:00 PM",
+      duration: "3 hours",
+      location: "Gulshan-e-Iqbal, Karachi",
+      status: "confirmed",
+      amount: "Rs. 1,800",
+      workerRating: 4.8,
+      workerImage: "/placeholder.svg?height=40&width=40",
+    },
+    {
+      id: "3",
+      service: "House Cleaning",
+      worker: "Fatima Khan",
+      date: "Jan 20",
+      time: "9:00 AM",
+      duration: "4 hours",
+      location: "Clifton, Karachi",
+      status: "pending",
+      amount: "Rs. 3,200",
+      workerRating: 4.9,
+      workerImage: "/placeholder.svg?height=40&width=40",
+    },
+  ]
 
-  useEffect(() => {
-    loadBookings()
-    loadStats()
-  }, [])
+  const pastBookings = [
+    {
+      id: "4",
+      service: "Bathroom Renovation",
+      worker: "Hassan Ahmed",
+      date: "Jan 10",
+      time: "11:00 AM",
+      duration: "6 hours",
+      location: "North Nazimabad, Karachi",
+      status: "completed",
+      amount: "Rs. 8,000",
+      workerRating: 4.7,
+      workerImage: "/placeholder.svg?height=40&width=40",
+      customerRating: 5,
+    },
+    {
+      id: "5",
+      service: "AC Repair",
+      worker: "Usman Sheikh",
+      date: "Jan 5",
+      time: "3:00 PM",
+      duration: "2 hours",
+      location: "Malir, Karachi",
+      status: "completed",
+      amount: "Rs. 1,500",
+      workerRating: 4.6,
+      workerImage: "/placeholder.svg?height=40&width=40",
+      customerRating: 4,
+    },
+  ]
 
-  const loadBookings = async () => {
-    setLoading(true)
-    try {
-      const bookings = await BookingService.getUserBookings(userId, "customer")
-
-      const today = new Date().toISOString().split("T")[0]
-      const upcoming = bookings.filter((booking) => booking.booking_date >= today && booking.status !== "completed")
-      const past = bookings.filter((booking) => booking.status === "completed")
-
-      setUpcomingBookings(upcoming)
-      setPastBookings(past)
-    } catch (error) {
-      console.error("Error loading bookings:", error)
-      toast.error("Failed to load bookings")
-    } finally {
-      setLoading(false)
-    }
-  }
-
-  const loadStats = async () => {
-    try {
-      const bookingStats = await BookingService.getBookingStats(userId, "customer")
-      setStats({
-        upcoming: bookingStats.confirmed,
-        completed: bookingStats.completed,
-        pending: bookingStats.pending,
-        totalSpent: bookingStats.totalAmount,
-      })
-    } catch (error) {
-      console.error("Error loading stats:", error)
-    }
-  }
-
-  const handleBookingConfirm = async (date: Date, time: string, workerId?: string) => {
-    if (!workerId) {
-      toast.error("Please select a worker")
-      return
-    }
-
-    try {
-      const endTime = new Date(`2000-01-01T${time}`)
-      endTime.setHours(endTime.getHours() + 2) // 2 hour duration
-
-      const bookingData = {
-        customer_id: userId,
-        worker_id: workerId,
-        title: "Service Booking",
-        description: "Service booking made through calendar",
-        booking_date: date.toISOString().split("T")[0],
-        start_time: time,
-        end_time: endTime.toTimeString().slice(0, 5),
-        duration_hours: 2,
-        location: "Customer Location",
-        amount: 1600, // 2 hours * Rs. 800
-        status: "pending" as const,
-      }
-
-      await BookingService.createBooking(bookingData)
-      toast.success("Booking created successfully!")
-
-      // Reload bookings
-      loadBookings()
-      loadStats()
-    } catch (error) {
-      console.error("Error creating booking:", error)
-      toast.error("Failed to create booking")
-    }
+  const handleBookingConfirm = (date: Date, time: string) => {
+    console.log("Booking confirmed for:", date, "at", time)
+    // Handle booking confirmation logic
   }
 
   const getStatusColor = (status: string) => {
@@ -116,27 +106,27 @@ export default function CustomerSchedulePage() {
     }
   }
 
-  const BookingCard = ({ booking, showActions = true }: { booking: BookingWithDetails; showActions?: boolean }) => (
+  const BookingCard = ({ booking, showActions = true }: { booking: any; showActions?: boolean }) => (
     <Card className="hover:shadow-md transition-shadow">
       <CardContent className="p-4">
         <div className="flex items-start justify-between mb-3">
           <div className="flex items-center space-x-3">
             <Avatar className="h-12 w-12">
-              <AvatarImage src={booking.worker.avatar_url || "/placeholder.svg?height=48&width=48"} />
+              <AvatarImage src={booking.workerImage || "/placeholder.svg"} />
               <AvatarFallback>
-                {booking.worker.full_name
+                {booking.worker
                   .split(" ")
                   .map((n: string) => n[0])
                   .join("")}
               </AvatarFallback>
             </Avatar>
             <div>
-              <h4 className="font-semibold">{booking.title}</h4>
-              <p className="text-sm text-muted-foreground">{booking.worker.full_name}</p>
+              <h4 className="font-semibold">{booking.service}</h4>
+              <p className="text-sm text-muted-foreground">{booking.worker}</p>
               <div className="flex items-center space-x-1 mt-1">
                 <div className="flex items-center">
                   <span className="text-xs">⭐</span>
-                  <span className="text-xs ml-1">{booking.worker.rating}</span>
+                  <span className="text-xs ml-1">{booking.workerRating}</span>
                 </div>
               </div>
             </div>
@@ -147,12 +137,12 @@ export default function CustomerSchedulePage() {
         <div className="grid grid-cols-2 gap-4 mb-3 text-sm">
           <div className="flex items-center space-x-2">
             <Calendar className="h-4 w-4 text-muted-foreground" />
-            <span>{new Date(booking.booking_date).toLocaleDateString()}</span>
+            <span>{booking.date}</span>
           </div>
           <div className="flex items-center space-x-2">
             <Clock className="h-4 w-4 text-muted-foreground" />
             <span>
-              {booking.start_time} ({booking.duration_hours}h)
+              {booking.time} ({booking.duration})
             </span>
           </div>
           <div className="flex items-center space-x-2 col-span-2">
@@ -162,7 +152,7 @@ export default function CustomerSchedulePage() {
         </div>
 
         <div className="flex items-center justify-between">
-          <span className="font-semibold text-green-600">Rs. {booking.amount}</span>
+          <span className="font-semibold text-green-600">{booking.amount}</span>
           {showActions && (
             <div className="flex space-x-2">
               <Button size="sm" variant="outline">
@@ -183,13 +173,13 @@ export default function CustomerSchedulePage() {
           )}
         </div>
 
-        {booking.customer_rating && (
+        {booking.customerRating && (
           <div className="mt-3 pt-3 border-t">
             <div className="flex items-center justify-between text-sm">
               <span className="text-muted-foreground">Your rating:</span>
               <div className="flex items-center">
                 {Array.from({ length: 5 }, (_, i) => (
-                  <span key={i} className={i < booking.customer_rating! ? "text-yellow-400" : "text-gray-300"}>
+                  <span key={i} className={i < booking.customerRating ? "text-yellow-400" : "text-gray-300"}>
                     ⭐
                   </span>
                 ))}
@@ -220,7 +210,7 @@ export default function CustomerSchedulePage() {
                 <Calendar className="h-5 w-5 text-blue-600" />
                 <div>
                   <p className="text-sm text-muted-foreground">Upcoming</p>
-                  <p className="text-2xl font-bold">{stats.upcoming}</p>
+                  <p className="text-2xl font-bold">{upcomingBookings.length}</p>
                 </div>
               </div>
             </CardContent>
@@ -232,10 +222,10 @@ export default function CustomerSchedulePage() {
                 <CheckCircle className="h-5 w-5 text-green-600" />
                 <div>
                   <p className="text-sm text-muted-foreground">Completed</p>
-                  <p className="text-2xl font-bold">{stats.completed}</p>
+                  <p className="text-2xl font-bold">{pastBookings.length}</p>
                 </div>
               </div>
-            </CardContent>
+            </div>
           </Card>
 
           <Card>
@@ -244,10 +234,10 @@ export default function CustomerSchedulePage() {
                 <Clock className="h-5 w-5 text-yellow-600" />
                 <div>
                   <p className="text-sm text-muted-foreground">Pending</p>
-                  <p className="text-2xl font-bold">{stats.pending}</p>
+                  <p className="text-2xl font-bold">{upcomingBookings.filter((b) => b.status === "pending").length}</p>
                 </div>
               </div>
-            </CardContent>
+            </div>
           </Card>
 
           <Card>
@@ -255,11 +245,11 @@ export default function CustomerSchedulePage() {
               <div className="flex items-center space-x-2">
                 <User className="h-5 w-5 text-purple-600" />
                 <div>
-                  <p className="text-sm text-muted-foreground">Total Spent</p>
-                  <p className="text-2xl font-bold">Rs. {stats.totalSpent.toLocaleString()}</p>
+                  <p className="text-sm text-muted-foreground">This Month</p>
+                  <p className="text-2xl font-bold">Rs. 15,500</p>
                 </div>
               </div>
-            </CardContent>
+            </div>
           </Card>
         </div>
 
@@ -272,7 +262,7 @@ export default function CustomerSchedulePage() {
           </TabsList>
 
           <TabsContent value="calendar" className="space-y-4">
-            <BookingCalendarSupabase userRole="customer" userId={userId} onBookingConfirm={handleBookingConfirm} />
+            <BookingCalendar userRole="customer" onBookingConfirm={handleBookingConfirm} />
           </TabsContent>
 
           <TabsContent value="upcoming" className="space-y-4">
@@ -281,20 +271,13 @@ export default function CustomerSchedulePage() {
               <Badge variant="secondary">{upcomingBookings.length} bookings</Badge>
             </div>
 
-            {loading ? (
-              <div className="flex items-center justify-center py-8">
-                <Loader2 className="h-8 w-8 animate-spin" />
-                <span className="ml-2">Loading bookings...</span>
-              </div>
-            ) : (
-              <div className="grid gap-4">
-                {upcomingBookings.map((booking) => (
-                  <BookingCard key={booking.id} booking={booking} />
-                ))}
-              </div>
-            )}
+            <div className="grid gap-4">
+              {upcomingBookings.map((booking) => (
+                <BookingCard key={booking.id} booking={booking} />
+              ))}
+            </div>
 
-            {!loading && upcomingBookings.length === 0 && (
+            {upcomingBookings.length === 0 && (
               <Card>
                 <CardContent className="p-12 text-center">
                   <Calendar className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
@@ -312,18 +295,11 @@ export default function CustomerSchedulePage() {
               <Badge variant="secondary">{pastBookings.length} completed</Badge>
             </div>
 
-            {loading ? (
-              <div className="flex items-center justify-center py-8">
-                <Loader2 className="h-8 w-8 animate-spin" />
-                <span className="ml-2">Loading bookings...</span>
-              </div>
-            ) : (
-              <div className="grid gap-4">
-                {pastBookings.map((booking) => (
-                  <BookingCard key={booking.id} booking={booking} showActions={false} />
-                ))}
-              </div>
-            )}
+            <div className="grid gap-4">
+              {pastBookings.map((booking) => (
+                <BookingCard key={booking.id} booking={booking} showActions={false} />
+              ))}
+            </div>
           </TabsContent>
         </Tabs>
       </div>
