@@ -1,7 +1,4 @@
 <div align="center">
-  <br />
-  <img src="https://image.freepik.com/free-vector/abstract-logo-flame-shape_1043-44.jpg" alt="Kaam Kinara Logo" width="150" style="border-radius: 50%;">
-  <br />
   <h1 align="center">Kaam Kinara</h1>
   <p align="center">
     Your One-Stop Platform for Local Services.
