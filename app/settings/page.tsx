@@ -47,7 +47,15 @@ export default function SettingsPage() {
     try {
       const {
         data: { user },
+        error: authError,
       } = await supabase.auth.getUser()
+
+      if (authError) {
+        console.error("Auth error:", authError)
+        router.push("/auth/login")
+        return
+      }
+
       if (!user) {
         router.push("/auth/login")
         return
@@ -59,6 +67,16 @@ export default function SettingsPage() {
         ProfileService.getUserSettings(user.id),
         ProfileService.getUserAddresses(user.id),
       ])
+
+      if (!profile) {
+        console.error("No profile found for user")
+        toast({
+          title: "Error",
+          description: "Profile not found. Please contact support.",
+          variant: "destructive",
+        })
+        return
+      }
 
       setUserProfile(profile)
       setUserSettings(settings)
@@ -171,7 +189,10 @@ export default function SettingsPage() {
   }
 
   return (
-    <DashboardLayout userRole={userProfile.role} userName={`${userProfile.first_name} ${userProfile.last_name}`}>
+    <DashboardLayout
+      userRole={userProfile?.role || "customer"}
+      userName={userProfile ? `${userProfile.first_name} ${userProfile.last_name}` : "Loading..."}
+    >
       <div className="space-y-6">
         <div className="flex items-center justify-between">
           <h1 className="text-3xl font-bold">Settings</h1>

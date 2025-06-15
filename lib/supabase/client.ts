@@ -1,6 +1,7 @@
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs"
+import type { Database } from "./database.types"
 
-export const supabase = createClientComponentClient()
+export const supabase = createClientComponentClient<Database>()
 
 // Helper function to get current user
 export async function getCurrentUser() {
@@ -42,3 +43,5 @@ export async function getWorkerProfile(userId: string) {
     return null
   }
 }
+
+export type { Database }

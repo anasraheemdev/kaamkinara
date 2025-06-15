@@ -18,6 +18,7 @@ import {
 import { SidebarNav } from "./sidebar-nav"
 import { FloatingChatButton } from "@/components/chat/floating-chat-button"
 import { Menu, Bell, Search, Wrench, LogOut, Settings, User } from "lucide-react"
+import { useRouter } from "next/navigation"
 
 interface DashboardLayoutProps {
   children: React.ReactNode
@@ -28,6 +29,7 @@ interface DashboardLayoutProps {
 
 export function DashboardLayout({ children, userRole, userName = "John Doe", userAvatar }: DashboardLayoutProps) {
   const [sidebarOpen, setSidebarOpen] = useState(false)
+  const router = useRouter()
 
   return (
     <div className="min-h-screen bg-gray-50/50">
@@ -101,11 +103,11 @@ export function DashboardLayout({ children, userRole, userName = "John Doe", use
                   </div>
                 </DropdownMenuLabel>
                 <DropdownMenuSeparator />
-                <DropdownMenuItem>
+                <DropdownMenuItem onClick={() => router.push("/profile")}>
                   <User className="mr-2 h-4 w-4" />
                   <span>Profile</span>
                 </DropdownMenuItem>
-                <DropdownMenuItem>
+                <DropdownMenuItem onClick={() => router.push("/settings")}>
                   <Settings className="mr-2 h-4 w-4" />
                   <span>Settings</span>
                 </DropdownMenuItem>
