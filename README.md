@@ -1,5 +1,5 @@
 <div align="center">
-  <img src="https://i.imgur.com/8B13789.png" alt="Kaam Kinara Logo" width="120" height="120">
+  <img src="https://i.imgur.com/8B13789.png" alt="Kaam Kinara Logo" width="800" height="500">
   <h1 align="center">🚀 Kaam Kinara</h1>
   <p align="center">
     <strong>Your One-Stop Platform for Local Services</strong>
