@@ -1,17 +1,28 @@
 <div align="center">
-  <h1 align="center">Kaam Kinara</h1>
+  <img src="https://i.imgur.com/8B13789.png" alt="Kaam Kinara Logo" width="120" height="120">
+  <h1 align="center">🚀 Kaam Kinara</h1>
   <p align="center">
-    Your One-Stop Platform for Local Services.
+    <strong>Your One-Stop Platform for Local Services</strong>
     <br />
-    <a href="#"><strong>Explore the Docs »</strong></a>
+    <em>Connecting skilled professionals with customers seamlessly</em>
     <br />
     <br />
-    <a href="#">View Demo</a>
+    <a href="#"><strong>📚 Explore the Docs »</strong></a>
+    <br />
+    <br />
+    <a href="#">🎯 View Demo</a>
     ·
-    <a href="#">Report Bug</a>
+    <a href="#">🐛 Report Bug</a>
     ·
-    <a href="#">Request Feature</a>
+    <a href="#">💡 Request Feature</a>
   </p>
+</div>
+
+<div align="center">
+  <img src="https://cdn-icons-png.freepik.com/512/3094/3094837.png" alt="Services" width="80">
+  <img src="https://cdn-icons-png.freepik.com/512/1570/1570889.png" alt="Booking" width="80">
+  <img src="https://cdn-icons-png.freepik.com/512/2040/2040946.png" alt="Chat" width="80">
+  <img src="https://cdn-icons-png.freepik.com/512/1828/1828506.png" alt="Calendar" width="80">
 </div>
 
 <p align="center">
@@ -25,59 +36,86 @@
 
 ## 📖 About The Project
 
+<div align="center">
+  <img src="https://cdn-icons-png.freepik.com/512/3094/3094837.png" alt="Service Platform" width="100">
+</div>
+
 **Kaam Kinara** is a modern, full-stack application designed to seamlessly connect skilled service providers (Workers) with individuals seeking their expertise (Customers). Whether you need a plumber, a graphic designer, or a private tutor, Kaam Kinara provides a reliable and user-friendly marketplace to find and book local services.
 
 This project is built with the latest technologies to ensure a scalable, performant, and maintainable platform. It features distinct, feature-rich dashboards for customers, workers, and administrators, creating a tailored experience for every user role.
-
-### ✨ Screenshots & Demos
-
-Here’s a glimpse into the core functionalities of Kaam Kinara.
-
-<table width="100%">
-  <tr>
-    <td width="50%" align="center">
-      <strong>Seamless Service Booking</strong><br><br>
-      <em>A smooth, calendar-based booking process for customers.</em><br><br>
-      <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExM3Z0dGFocjR6Zzg2bHVjc2ZkZ3ZmMmRzNXQ0bWg2Y2Y2ZHJzZ3g2aSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/L1R1tvI9svkY0w2q6A/giphy.gif" alt="Service Booking Demo GIF" style="border-radius: 12px; box-shadow: 0 8px 16px rgba(0,0,0,0.3);">
-    </td>
-    <td width="50%" align="center">
-      <strong>Real-Time Chat</strong><br><br>
-      <em>Instant messaging between customers and service providers.</em><br><br>
-      <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExbmY4dG1uN3BtdGE1Z3B6Z3hob2NndndpZThuZnZmaGg0c3M0dHE2eCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/3o7TKss4k34L2u1KkE/giphy.gif" alt="Real-Time Chat Demo GIF" style="border-radius: 12px; box-shadow: 0 8px 16px rgba(0,0,0,0.3);">
-    </td>
-  </tr>
-  <tr>
-    <td width="50%" align="center">
-      <strong>Customer Dashboard</strong><br><br>
-      <em>An overview of bookings, schedules, and services.</em><br><br>
-      <img src="https://img.freepik.com/free-vector/dashboard-user-panel-with-diagrams-graphs-charts-ui-ux-elements-template-web-app-user-interface-admin-panel-concept-vector-illustration_171920-505.jpg?w=1380" alt="Customer Dashboard" style="border-radius: 12px; box-shadow: 0 8px 16px rgba(0,0,0,0.3);">
-    </td>
-    <td width="50%" align="center">
-      <strong>Worker Gig Management</strong><br><br>
-      <em>Workers can easily create and manage their service listings.</em><br><br>
-       <img src="https://img.freepik.com/free-vector/project-management-business-multitasking-concept-illustration_1284-54133.jpg?w=1060" alt="Worker Gig Management" style="border-radius: 12px; box-shadow: 0 8px 16px rgba(0,0,0,0.3);">
-    </td>
-  </tr>
-</table>
 
 ---
 
 ## 🚀 Key Features
 
-* 👤 **Role-Based Dashboards**: Separate, feature-rich interfaces for Customers, Workers, and Administrators.
-* 📅 **Seamless Booking & Scheduling**: An intuitive calendar-based system for customers to book services and for workers to manage their schedules.
-* 🛠️ **Gig & Service Management**: Workers can easily create, update, and manage their service listings (gigs).
-* 💬 **Real-Time Messaging**: Integrated chat functionality allows for direct and instant communication between customers and workers.
-* 🔍 **Service Discovery**: Customers can browse and search for available services.
-* 🔐 **Secure Authentication**: Safe and secure login and signup functionality for all user roles.
-* 💅 **Modern & Responsive UI**: Beautifully designed with **Tailwind CSS** and **Shadcn/UI**, ensuring a great experience on any device.
-* ⚡ **Optimistic UI Updates**: Smooth user experience with optimistic updates for actions like messaging and booking.
+<div align="center">
+  <img src="https://cdn-icons-png.freepik.com/512/2040/2040946.png" alt="Features" width="80">
+</div>
+
+### 👥 User Management
+<img src="https://cdn-icons-png.freepik.com/512/1570/1570889.png" alt="Users" width="40" align="left" style="margin-right: 10px;">
+
+* **Role-Based Dashboards**: Separate, feature-rich interfaces for Customers, Workers, and Administrators.
+* **Secure Authentication**: Safe and secure login and signup functionality for all user roles.
+
+### 📅 Booking & Scheduling
+<img src="https://cdn-icons-png.freepik.com/512/1828/1828506.png" alt="Calendar" width="40" align="left" style="margin-right: 10px;">
+
+* **Seamless Booking & Scheduling**: An intuitive calendar-based system for customers to book services and for workers to manage their schedules.
+* **Service Discovery**: Customers can browse and search for available services.
+
+### 🛠️ Service Management
+<img src="https://cdn-icons-png.freepik.com/512/3094/3094837.png" alt="Services" width="40" align="left" style="margin-right: 10px;">
+
+* **Gig & Service Management**: Workers can easily create, update, and manage their service listings (gigs).
+
+### 💬 Communication
+<img src="https://cdn-icons-png.freepik.com/512/2040/2040946.png" alt="Chat" width="40" align="left" style="margin-right: 10px;">
+
+* **Real-Time Messaging**: Integrated chat functionality allows for direct and instant communication between customers and workers.
+
+### 🎨 User Experience
+<img src="https://cdn-icons-png.freepik.com/512/1828/1828679.png" alt="Design" width="40" align="left" style="margin-right: 10px;">
+
+* **Modern & Responsive UI**: Beautifully designed with **Tailwind CSS** and **Shadcn/UI**, ensuring a great experience on any device.
+* **Optimistic UI Updates**: Smooth user experience with optimistic updates for actions like messaging and booking.
 
 ---
 
 ## 🛠️ Built With
 
+<div align="center">
+  <img src="https://cdn-icons-png.freepik.com/512/919/919825.png" alt="Tech Stack" width="80">
+</div>
+
 This project leverages a modern, powerful tech stack to deliver a top-tier user experience.
+
+<div align="center">
+  <table>
+    <tr>
+      <td align="center">
+        <img src="https://cdn-icons-png.freepik.com/512/5968/5968292.png" alt="Next.js" width="50"><br>
+        <strong>Next.js 14</strong><br>
+        Framework
+      </td>
+      <td align="center">
+        <img src="https://cdn-icons-png.freepik.com/512/5968/5968381.png" alt="TypeScript" width="50"><br>
+        <strong>TypeScript</strong><br>
+        Language
+      </td>
+      <td align="center">
+        <img src="https://cdn-icons-png.freepik.com/512/5968/5968672.png" alt="Tailwind" width="50"><br>
+        <strong>Tailwind CSS</strong><br>
+        Styling
+      </td>
+      <td align="center">
+        <img src="https://cdn-icons-png.freepik.com/512/919/919825.png" alt="Components" width="50"><br>
+        <strong>Shadcn/UI</strong><br>
+        Components
+      </td>
+    </tr>
+  </table>
+</div>
 
 * **Framework**: [Next.js 14](https://nextjs.org/) (with App Router)
 * **Language**: [TypeScript](https://www.typescriptlang.org/)
@@ -91,9 +129,15 @@ This project leverages a modern, powerful tech stack to deliver a top-tier user 
 
 ## 🏁 Getting Started
 
+<div align="center">
+  <img src="https://cdn-icons-png.freepik.com/512/2040/2040946.png" alt="Getting Started" width="80">
+</div>
+
 To get a local copy up and running, follow these simple steps.
 
 ### Prerequisites
+
+<img src="https://cdn-icons-png.freepik.com/512/919/919825.png" alt="Prerequisites" width="30" align="left" style="margin-right: 10px;">
 
 Make sure you have the following installed on your machine:
 * [Node.js](https://nodejs.org/en/) (v18 or later)
@@ -101,18 +145,20 @@ Make sure you have the following installed on your machine:
 
 ### Installation
 
+<img src="https://cdn-icons-png.freepik.com/512/1828/1828506.png" alt="Installation" width="30" align="left" style="margin-right: 10px;">
+
 1.  **Clone the repository:**
-    \`\`\`sh
-    git clone [https://github.com/anasraheemdev/kaamkinara.git](https://github.com/anasraheemdev/kaamkinara.git)
+    ```sh
+    git clone https://github.com/anasraheemdev/kaamkinara.git
     cd kaamkinara
-    \`\`\`
+    ```
 2.  **Install dependencies:**
-    \`\`\`sh
+    ```sh
     pnpm install
-    \`\`\`
+    ```
 3.  **Set up environment variables:**
     Create a `.env.local` file in the root of your project and add the necessary environment variables.
-    \`\`\`env
+    ```env
     # Example .env.local
     NEXT_PUBLIC_API_URL="http://localhost:3000/api"
 
@@ -120,60 +166,76 @@ Make sure you have the following installed on your machine:
     DATABASE_URL="..."
     NEXTAUTH_URL="..."
     NEXTAUTH_SECRET="..."
-    \`\`\`
+    ```
 4.  **Run the development server:**
-    \`\`\`sh
+    ```sh
     pnpm dev
-    \`\`\`
+    ```
     Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
 ---
 
 ## 📂 Project Structure
 
+<div align="center">
+  <img src="https://cdn-icons-png.freepik.com/512/1828/1828679.png" alt="Project Structure" width="80">
+</div>
+
 The project uses the Next.js App Router for intuitive file-based routing.
 
-\`\`\`
+```
 kaamkinara/
-├── app/                      # Main application folder
-│   ├── (auth)/               # Authentication routes (login, signup)
-│   ├── (dashboard)/          # Main dashboard layouts and pages
-│   │   ├── admin/            # Admin-specific routes
-│   │   ├── customer/         # Customer-specific routes
-│   │   └── worker/           # Worker-specific routes
-│   ├── api/                  # API routes
-│   ├── globals.css           # Global styles
-│   └── layout.tsx            # Root layout
-├── components/               # Shared React components
-│   ├── calendar/             # Calendar and scheduling components
-│   ├── chat/                 # Chat interface components
-│   ├── layout/               # Layout components (sidebar, dashboard)
-│   └── ui/                   # Reusable UI elements from Shadcn/UI
-├── lib/                      # Utility functions and libraries
-│   ├── chat-store.ts         # Zustand store for chat state
-│   └── utils.ts              # Helper functions
-├── public/                   # Static assets
-└── tailwind.config.ts        # Tailwind CSS configuration
-\`\`\`
+├── 📁 app/                      # Main application folder
+│   ├── 🔐 (auth)/               # Authentication routes (login, signup)
+│   ├── 📊 (dashboard)/          # Main dashboard layouts and pages
+│   │   ├── 👨‍💼 admin/            # Admin-specific routes
+│   │   ├── 👤 customer/         # Customer-specific routes
+│   │   └── 🔧 worker/           # Worker-specific routes
+│   ├── 🌐 api/                  # API routes
+│   ├── 🎨 globals.css           # Global styles
+│   └── 📄 layout.tsx            # Root layout
+├── 🧩 components/               # Shared React components
+│   ├── 📅 calendar/             # Calendar and scheduling components
+│   ├── 💬 chat/                 # Chat interface components
+│   ├── 📐 layout/               # Layout components (sidebar, dashboard)
+│   └── 🎯 ui/                   # Reusable UI elements from Shadcn/UI
+├── 📚 lib/                      # Utility functions and libraries
+│   ├── 💾 chat-store.ts         # Zustand store for chat state
+│   └── 🛠️ utils.ts              # Helper functions
+├── 🖼️ public/                   # Static assets
+└── ⚙️ tailwind.config.ts        # Tailwind CSS configuration
+```
 
 ---
 
 ## 🤝 Contributing
+
+<div align="center">
+  <img src="https://cdn-icons-png.freepik.com/512/1570/1570889.png" alt="Contributing" width="80">
+</div>
 
 Contributions are what make the open-source community such an amazing place to learn, inspire, and create. Any contributions you make are **greatly appreciated**.
 
 If you have a suggestion that would make this better, please fork the repo and create a pull request. You can also simply open an issue with the tag "enhancement".
 Don't forget to give the project a star! Thanks again!
 
-1.  Fork the Project
-2.  Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
-3.  Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
-4.  Push to the Branch (`git push origin feature/AmazingFeature`)
-5.  Open a Pull Request
+### How to Contribute
+
+<img src="https://cdn-icons-png.freepik.com/512/2040/2040946.png" alt="Steps" width="30" align="left" style="margin-right: 10px;">
+
+1.  🍴 Fork the Project
+2.  🌿 Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
+3.  💾 Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
+4.  📤 Push to the Branch (`git push origin feature/AmazingFeature`)
+5.  🔄 Open a Pull Request
 
 ---
 
 ## 📄 License
+
+<div align="center">
+  <img src="https://cdn-icons-png.freepik.com/512/1828/1828506.png" alt="License" width="60">
+</div>
 
 Distributed under the MIT License. See `LICENSE` for more information.
 
@@ -181,6 +243,20 @@ Distributed under the MIT License. See `LICENSE` for more information.
 
 ## 📧 Contact
 
-Anas Raheem - [@anasraheemdev](https://twitter.com/anasraheemdev) - anasraheem48@gmail.com
+<div align="center">
+  <img src="https://cdn-icons-png.freepik.com/512/2040/2040946.png" alt="Contact" width="80">
+</div>
 
-Project Link: [https://github.com/anasraheemdev/kaamkinara](https://github.com/anasraheemdev/kaamkinara)
+**Anas Raheem** - [@anasraheemdev](https://twitter.com/anasraheemdev) - anasraheem48@gmail.com
+
+**Project Link**: [https://github.com/anasraheemdev/kaamkinara](https://github.com/anasraheemdev/kaamkinara)
+
+---
+
+<div align="center">
+  <img src="https://cdn-icons-png.freepik.com/512/1570/1570889.png" alt="Thank You" width="60">
+  <br>
+  <strong>Thank you for checking out Kaam Kinara! 🎉</strong>
+  <br>
+  <em>Made with ❤️ by Anas Raheem</em>
+</div>
