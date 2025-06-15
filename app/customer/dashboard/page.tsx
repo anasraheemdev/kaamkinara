@@ -9,7 +9,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { DashboardLayout } from "@/components/layout/dashboard-layout"
 import { ChatButtonV2 } from "@/components/messaging/chat-button-v2"
-import { Calendar, Clock, DollarSign, Star, Wrench, CheckCircle } from "lucide-react"
+import { Calendar, Clock, DollarSign, Star, Wrench, CheckCircle, MessageCircle, Phone } from "lucide-react"
 
 export default function CustomerDashboard() {
   const [activeBookings, setActiveBookings] = useState([
@@ -67,6 +67,21 @@ export default function CustomerDashboard() {
     completedBookings: 10,
     totalSpent: 1450,
     averageRating: 4.8,
+  }
+
+  const getStatusColor = (status: string) => {
+    switch (status) {
+      case "confirmed":
+        return "bg-green-100 text-green-800"
+      case "pending":
+        return "bg-yellow-100 text-yellow-800"
+      case "completed":
+        return "bg-blue-100 text-blue-800"
+      case "cancelled":
+        return "bg-red-100 text-red-800"
+      default:
+        return "bg-gray-100 text-gray-800"
+    }
   }
 
   return (
@@ -185,5 +200,123 @@ export default function CustomerDashboard() {
                       <div className="flex items-center space-x-4">
                         <div className="text-right">
                           <p className="font-semibold">Rs. {booking.price}</p>
-                          <Badge
-                            variant={booking.status === "confirmed" ? "default" : "secondary"} />\
+                          <Badge className={getStatusColor(booking.status)}>{booking.status}</Badge>
+                        </div>
+                        <div className="flex space-x-2">
+                          <Button size="sm" variant="outline">
+                            <MessageCircle className="h-4 w-4" />
+                          </Button>
+                          <Button size="sm" variant="outline">
+                            <Phone className="h-4 w-4" />
+                          </Button>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </CardContent>
+            </Card>
+          </TabsContent>
+
+          <TabsContent value="history" className="space-y-6">
+            <Card>
+              <CardHeader>
+                <CardTitle>Booking History</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="space-y-4">
+                  {recentBookings.map((booking) => (
+                    <div key={booking.id} className="flex items-center justify-between p-4 border rounded-lg">
+                      <div className="flex items-center space-x-4">
+                        <Avatar className="h-12 w-12">
+                          <AvatarImage src={booking.avatar || "/placeholder.svg"} />
+                          <AvatarFallback>
+                            {booking.worker
+                              .split(" ")
+                              .map((n) => n[0])
+                              .join("")}
+                          </AvatarFallback>
+                        </Avatar>
+                        <div>
+                          <h3 className="font-semibold">{booking.service}</h3>
+                          <p className="text-sm text-gray-600">Worker: {booking.worker}</p>
+                          <div className="flex items-center space-x-4 mt-1">
+                            <div className="flex items-center space-x-1">
+                              <Clock className="h-4 w-4 text-gray-400" />
+                              <span className="text-sm text-gray-600">{booking.date}</span>
+                            </div>
+                            <div className="flex items-center space-x-1">
+                              <Star className="h-4 w-4 text-yellow-400 fill-current" />
+                              <span className="text-sm text-gray-600">{booking.rating}</span>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div className="flex items-center space-x-4">
+                        <div className="text-right">
+                          <p className="font-semibold">Rs. {booking.price}</p>
+                          <Badge className={getStatusColor(booking.status)}>{booking.status}</Badge>
+                        </div>
+                        <Button size="sm" variant="outline">
+                          Rate Service
+                        </Button>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </CardContent>
+            </Card>
+          </TabsContent>
+
+          <TabsContent value="analytics" className="space-y-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <Card>
+                <CardHeader>
+                  <CardTitle>Spending Overview</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="space-y-4">
+                    <div className="flex justify-between">
+                      <span>This Month</span>
+                      <span className="font-semibold">Rs. 450</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span>Last Month</span>
+                      <span className="font-semibold">Rs. 320</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span>Total This Year</span>
+                      <span className="font-semibold">Rs. {stats.totalSpent}</span>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+
+              <Card>
+                <CardHeader>
+                  <CardTitle>Service Categories</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="space-y-4">
+                    <div className="flex justify-between">
+                      <span>Plumbing</span>
+                      <span className="font-semibold">5 bookings</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span>Electrical</span>
+                      <span className="font-semibold">3 bookings</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span>Cleaning</span>
+                      <span className="font-semibold">4 bookings</span>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
+          </TabsContent>
+        </Tabs>
+      </div>
+    </DashboardLayout>
+  )
+}
