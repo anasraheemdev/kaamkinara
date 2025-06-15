@@ -15,7 +15,7 @@ import { Checkbox } from "@/components/ui/checkbox"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Badge } from "@/components/ui/badge"
 import { Wrench, Users, Loader2 } from "lucide-react"
-import { AuthService, type SignUpData } from "@/lib/auth/auth-service"
+import { supabase } from "@/lib/supabase/client"
 import { useToast } from "@/hooks/use-toast"
 
 function SignUpForm() {
@@ -66,10 +66,20 @@ function SignUpForm() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
 
+    // Validation
     if (formData.password !== formData.confirmPassword) {
       toast({
         title: "Error",
         description: "Passwords do not match",
+        variant: "destructive",
+      })
+      return
+    }
+
+    if (formData.password.length < 6) {
+      toast({
+        title: "Error",
+        description: "Password must be at least 6 characters long",
         variant: "destructive",
       })
       return
@@ -87,47 +97,94 @@ function SignUpForm() {
     setIsLoading(true)
 
     try {
-      const signUpData: SignUpData = {
+      // Sign up with Supabase Auth (no email confirmation required)
+      const { data: authData, error: authError } = await supabase.auth.signUp({
         email: formData.email,
         password: formData.password,
-        firstName: formData.firstName,
-        lastName: formData.lastName,
-        phone: formData.phone,
-        role: selectedRole,
-        city: formData.city,
-        address: formData.address,
+        options: {
+          emailRedirectTo: undefined, // Remove email confirmation
+          data: {
+            first_name: formData.firstName,
+            last_name: formData.lastName,
+            role: selectedRole,
+          },
+        },
+      })
+
+      if (authError) {
+        throw authError
       }
 
+      if (!authData.user) {
+        throw new Error("User creation failed")
+      }
+
+      // Wait a moment for the trigger to create the user profile
+      await new Promise((resolve) => setTimeout(resolve, 1000))
+
+      // Update user profile with additional data
+      const updateData: any = {}
+      if (formData.phone) updateData.phone = formData.phone
+      if (formData.city) updateData.city = formData.city
+      if (formData.address) updateData.address = formData.address
+
+      if (Object.keys(updateData).length > 0) {
+        const { error: profileError } = await supabase.from("users").update(updateData).eq("id", authData.user.id)
+
+        if (profileError) {
+          console.error("Profile update error:", profileError)
+        }
+      }
+
+      // If user is a worker, create worker profile
       if (selectedRole === "worker") {
-        signUpData.cnic = formData.cnic
-        signUpData.skills = selectedSkills
-        signUpData.experienceLevel = formData.experienceLevel
-        signUpData.bio = formData.bio
-      }
+        const workerData: any = {
+          user_id: authData.user.id,
+          verification_status: "verified", // Auto-verify workers
+        }
 
-      await AuthService.signUp(signUpData)
+        if (formData.cnic) workerData.cnic = formData.cnic
+        if (selectedSkills.length > 0) workerData.skills = selectedSkills
+        if (formData.experienceLevel) workerData.experience_level = formData.experienceLevel
+        if (formData.bio) workerData.bio = formData.bio
+
+        const { error: workerError } = await supabase.from("worker_profiles").insert(workerData)
+
+        if (workerError) {
+          console.error("Worker profile creation error:", workerError)
+        }
+      }
 
       toast({
         title: "Success!",
-        description:
-          selectedRole === "worker"
-            ? "Account created! Please check your email to verify your account. Your worker profile will be reviewed for verification."
-            : "Account created! Please check your email to verify your account.",
+        description: "Account created successfully! You are now logged in.",
       })
 
-      // Redirect based on role
+      // Redirect based on role immediately (no email verification needed)
       setTimeout(() => {
         if (selectedRole === "worker") {
           router.push("/worker/dashboard")
         } else {
           router.push("/customer/dashboard")
         }
-      }, 2000)
+      }, 1500)
     } catch (error: any) {
       console.error("Sign up error:", error)
+      let errorMessage = "Failed to create account. Please try again."
+
+      if (error.message?.includes("already registered")) {
+        errorMessage = "This email is already registered. Please try logging in instead."
+      } else if (error.message?.includes("Invalid email")) {
+        errorMessage = "Please enter a valid email address."
+      } else if (error.message?.includes("Password")) {
+        errorMessage = "Password must be at least 6 characters long."
+      } else if (error.message?.includes("Email rate limit")) {
+        errorMessage = "Too many signup attempts. Please try again later."
+      }
+
       toast({
         title: "Error",
-        description: error.message || "Failed to create account. Please try again.",
+        description: errorMessage,
         variant: "destructive",
       })
     } finally {
@@ -224,7 +281,6 @@ function SignUpForm() {
                   placeholder="+92 300 1234567"
                   value={formData.phone}
                   onChange={(e) => handleInputChange("phone", e.target.value)}
-                  required
                 />
               </div>
 
@@ -233,7 +289,7 @@ function SignUpForm() {
                 <Input
                   id="password"
                   type="password"
-                  placeholder="Create a strong password"
+                  placeholder="Create a strong password (min 6 characters)"
                   value={formData.password}
                   onChange={(e) => handleInputChange("password", e.target.value)}
                   required
@@ -289,7 +345,6 @@ function SignUpForm() {
                       placeholder="12345-6789012-3"
                       value={formData.cnic}
                       onChange={(e) => handleInputChange("cnic", e.target.value)}
-                      required
                     />
                   </div>
 
@@ -367,25 +422,14 @@ function SignUpForm() {
                 </Label>
               </div>
 
-              {selectedRole === "worker" && (
-                <div className="flex items-center space-x-2">
-                  <Checkbox id="verification" required />
-                  <Label htmlFor="verification" className="text-sm">
-                    I understand that my account will be reviewed and verified before activation
-                  </Label>
-                </div>
-              )}
-
               <Button type="submit" className="w-full" size="lg" disabled={isLoading}>
                 {isLoading ? (
                   <>
                     <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                     Creating Account...
                   </>
-                ) : selectedRole === "worker" ? (
-                  "Submit for Verification"
                 ) : (
-                  "Create Account"
+                  "Create Account & Sign In"
                 )}
               </Button>
             </form>
