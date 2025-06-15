@@ -47,6 +47,8 @@ function LoginForm() {
     setIsLoading(true)
 
     try {
+      console.log("Attempting login for:", formData.email)
+
       // Sign in with Supabase
       const { data: authData, error: authError } = await supabase.auth.signInWithPassword({
         email: formData.email,
@@ -54,15 +56,50 @@ function LoginForm() {
       })
 
       if (authError) {
+        console.error("Auth error:", authError)
         throw authError
       }
 
       if (!authData.user) {
-        throw new Error("Login failed")
+        throw new Error("Login failed - no user returned")
       }
 
-      // Get user profile to determine role
-      const userProfile = await getUserProfile(authData.user.id)
+      console.log("Login successful, user:", authData.user.id)
+
+      // Get user profile to determine role with fallback creation
+      let userProfile = null
+      try {
+        userProfile = await getUserProfile(authData.user.id)
+        console.log("User profile found:", userProfile)
+      } catch (profileError) {
+        console.error("Profile fetch error:", profileError)
+
+        // If profile doesn't exist, create a basic one from auth metadata
+        const userData = {
+          id: authData.user.id,
+          email: authData.user.email || formData.email,
+          first_name: authData.user.user_metadata?.first_name || "",
+          last_name: authData.user.user_metadata?.last_name || "",
+          role: authData.user.user_metadata?.role || "customer",
+          created_at: new Date().toISOString(),
+          updated_at: new Date().toISOString(),
+        }
+
+        console.log("Creating missing profile:", userData)
+
+        const { data: newProfile, error: createError } = await supabase
+          .from("users")
+          .upsert(userData, { onConflict: "id" })
+          .select()
+          .single()
+
+        if (createError) {
+          console.error("Profile creation error:", createError)
+        } else {
+          userProfile = newProfile
+          console.log("Created new profile:", userProfile)
+        }
+      }
 
       toast({
         title: "Success!",
@@ -71,9 +108,12 @@ function LoginForm() {
 
       // Redirect based on user role
       setTimeout(() => {
-        if (userProfile?.role === "worker") {
+        const role = userProfile?.role || authData.user.user_metadata?.role || "customer"
+        console.log("Redirecting with role:", role)
+
+        if (role === "worker") {
           router.push("/worker/dashboard")
-        } else if (userProfile?.role === "admin") {
+        } else if (role === "admin") {
           router.push("/admin/dashboard")
         } else {
           router.push("/customer/dashboard")
@@ -89,6 +129,8 @@ function LoginForm() {
         errorMessage = "Please verify your email address before logging in."
       } else if (error.message?.includes("Too many requests")) {
         errorMessage = "Too many login attempts. Please try again later."
+      } else if (error.message?.includes("User not found")) {
+        errorMessage = "No account found with this email address. Please sign up first."
       }
 
       toast({

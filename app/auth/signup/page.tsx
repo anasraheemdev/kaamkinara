@@ -97,12 +97,14 @@ function SignUpForm() {
     setIsLoading(true)
 
     try {
-      // Sign up with Supabase Auth (no email confirmation required)
+      console.log("Starting simplified signup process...")
+
+      // Step 1: Create auth user with minimal data to avoid trigger conflicts
       const { data: authData, error: authError } = await supabase.auth.signUp({
         email: formData.email,
         password: formData.password,
         options: {
-          emailRedirectTo: undefined, // Remove email confirmation
+          emailRedirectTo: undefined,
           data: {
             first_name: formData.firstName,
             last_name: formData.lastName,
@@ -112,55 +114,107 @@ function SignUpForm() {
       })
 
       if (authError) {
-        throw authError
+        console.error("Auth signup error:", authError)
+
+        // Handle specific error cases
+        if (authError.message.includes("User already registered")) {
+          throw new Error("This email is already registered. Please try logging in instead.")
+        } else if (authError.message.includes("Invalid email")) {
+          throw new Error("Please enter a valid email address.")
+        } else if (authError.message.includes("Password should be at least")) {
+          throw new Error("Password must be at least 6 characters long.")
+        } else {
+          throw new Error(`Signup failed: ${authError.message}`)
+        }
       }
 
       if (!authData.user) {
-        throw new Error("User creation failed")
+        throw new Error("User creation failed - no user returned")
       }
 
-      // Wait a moment for the trigger to create the user profile
+      console.log("Auth user created successfully:", authData.user.id)
+
+      // Step 2: Wait a moment for any triggers to complete
       await new Promise((resolve) => setTimeout(resolve, 1000))
 
-      // Update user profile with additional data
-      const updateData: any = {}
-      if (formData.phone) updateData.phone = formData.phone
-      if (formData.city) updateData.city = formData.city
-      if (formData.address) updateData.address = formData.address
+      // Step 3: Create user profile directly (bypass trigger issues)
+      try {
+        const userData = {
+          id: authData.user.id,
+          email: formData.email,
+          first_name: formData.firstName,
+          last_name: formData.lastName,
+          phone: formData.phone || null,
+          role: selectedRole,
+          city: formData.city || null,
+          address: formData.address || null,
+        }
 
-      if (Object.keys(updateData).length > 0) {
-        const { error: profileError } = await supabase.from("users").update(updateData).eq("id", authData.user.id)
+        console.log("Creating user profile:", userData)
+
+        // Use upsert to handle any conflicts
+        const { data: userProfile, error: profileError } = await supabase
+          .from("users")
+          .upsert(userData, {
+            onConflict: "id",
+            ignoreDuplicates: false,
+          })
+          .select()
+          .single()
 
         if (profileError) {
-          console.error("Profile update error:", profileError)
+          console.error("Profile creation error:", profileError)
+          // Don't throw error, continue with signup
+          console.log("Continuing despite profile error...")
+        } else {
+          console.log("User profile created successfully:", userProfile)
         }
+      } catch (profileError) {
+        console.error("Profile creation failed:", profileError)
+        // Continue anyway
       }
 
-      // If user is a worker, create worker profile
+      // Step 4: Create worker profile if needed
       if (selectedRole === "worker") {
-        const workerData: any = {
-          user_id: authData.user.id,
-          verification_status: "verified", // Auto-verify workers
-        }
+        try {
+          const workerData = {
+            user_id: authData.user.id,
+            cnic: formData.cnic || null,
+            skills: selectedSkills || [],
+            experience_level: formData.experienceLevel || null,
+            bio: formData.bio || null,
+            verification_status: "verified",
+          }
 
-        if (formData.cnic) workerData.cnic = formData.cnic
-        if (selectedSkills.length > 0) workerData.skills = selectedSkills
-        if (formData.experienceLevel) workerData.experience_level = formData.experienceLevel
-        if (formData.bio) workerData.bio = formData.bio
+          console.log("Creating worker profile:", workerData)
 
-        const { error: workerError } = await supabase.from("worker_profiles").insert(workerData)
+          const { data: workerProfile, error: workerError } = await supabase
+            .from("worker_profiles")
+            .upsert(workerData, {
+              onConflict: "user_id",
+              ignoreDuplicates: false,
+            })
+            .select()
+            .single()
 
-        if (workerError) {
-          console.error("Worker profile creation error:", workerError)
+          if (workerError) {
+            console.error("Worker profile creation error:", workerError)
+          } else {
+            console.log("Worker profile created successfully:", workerProfile)
+          }
+        } catch (workerError) {
+          console.error("Worker profile creation failed:", workerError)
+          // Continue anyway
         }
       }
 
+      // Success!
       toast({
         title: "Success!",
         description: "Account created successfully! You are now logged in.",
       })
 
-      // Redirect based on role immediately (no email verification needed)
+      // Redirect based on role
       setTimeout(() => {
         if (selectedRole === "worker") {
           router.push("/worker/dashboard")
@@ -169,17 +223,12 @@ function SignUpForm() {
         }
       }, 1500)
     } catch (error: any) {
-      console.error("Sign up error:", error)
+      console.error("Signup error:", error)
+
       let errorMessage = "Failed to create account. Please try again."
 
-      if (error.message?.includes("already registered")) {
-        errorMessage = "This email is already registered. Please try logging in instead."
-      } else if (error.message?.includes("Invalid email")) {
-        errorMessage = "Please enter a valid email address."
-      } else if (error.message?.includes("Password")) {
-        errorMessage = "Password must be at least 6 characters long."
-      } else if (error.message?.includes("Email rate limit")) {
-        errorMessage = "Too many signup attempts. Please try again later."
+      if (error.message) {
+        errorMessage = error.message
       }
 
       toast({
