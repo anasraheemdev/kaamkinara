@@ -225,7 +225,7 @@ export default function CustomerSchedulePage() {
                   <p className="text-2xl font-bold">{pastBookings.length}</p>
                 </div>
               </div>
-            </div>
+            </CardContent>
           </Card>
 
           <Card>
@@ -237,7 +237,7 @@ export default function CustomerSchedulePage() {
                   <p className="text-2xl font-bold">{upcomingBookings.filter((b) => b.status === "pending").length}</p>
                 </div>
               </div>
-            </div>
+            </CardContent>
           </Card>
 
           <Card>
@@ -249,7 +249,7 @@ export default function CustomerSchedulePage() {
                   <p className="text-2xl font-bold">Rs. 15,500</p>
                 </div>
               </div>
-            </div>
+            </CardContent>
           </Card>
         </div>
 
