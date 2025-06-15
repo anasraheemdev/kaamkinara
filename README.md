@@ -1,5 +1,5 @@
 <div align="center">
-  <img src="https://www.theappsondemand.com/wp-content/uploads/elementor/thumbs/banner-1-1-qnki925dmmhuzmm09qkpgg8k13fh7iy8eucahmlzb4.png" alt="Kaam Kinara" width="400" height="800">
+  <img src="https://www.theappsondemand.com/wp-content/uploads/elementor/thumbs/banner-1-1-qnki925dmmhuzmm09qkpgg8k13fh7iy8eucahmlzb4.png" alt="Kaam Kinara" width="800" height="400">
   
   # 🏢 Kaam Kinara
   
